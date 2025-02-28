@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Container,
   TextField,
@@ -12,8 +13,10 @@ import {
   FormControl,
   Box,
   Chip,
+  CircularProgress,
 } from "@mui/material";
 import OwnerNavbar from "../components/OwnerNavbar";
+import { toast, ToastContainer } from "react-toastify";
 
 const amenitiesList = ["WiFi", "Gym", "Swimming Pool", "Parking", "AC", "Security"];
 
@@ -26,11 +29,13 @@ const AddProperty = () => {
     bedrooms: "",
     bathrooms: "",
     furnished: false,
-    available: false,
+    available: true,
     amenities: [],
     images: [],
     owner: "",
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -46,10 +51,38 @@ const AddProperty = () => {
     setProperty({ ...property, amenities: event.target.value });
   };
 
-  const handleImageUpload = (event) => {
+  // ✅ Upload images to Cloudinary and store URLs
+  const handleImageUpload = async (event) => {
     const files = Array.from(event.target.files);
-    const fileURLs = files.map((file) => URL.createObjectURL(file));
-    setProperty({ ...property, images: [...property.images, ...fileURLs] });
+    
+    if (files.length === 0) {
+      toast({ title: "Choose at least one photo", status: "error", duration: 3000, isClosable: true });
+      return;
+    }
+
+    setIsLoading(true);
+    const uploadedImageURLs = [];
+
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "f05bb7m0"); // Your Cloudinary Upload Preset
+
+      try {
+        const res = await axios.post(`https://api.cloudinary.com/v1_1/dyv9xgbfx/image/upload`, formData);
+        uploadedImageURLs.push(res.data.secure_url);
+      } catch (error) {
+        toast({ title: "Error uploading photo", status: "error", duration: 3000, isClosable: true });
+      }
+    }
+
+    setProperty((prev) => ({
+      ...prev,
+      images: [...prev.images, ...uploadedImageURLs], // Add Cloudinary URLs
+    }));
+
+    setIsLoading(false);
+    toast({ title: "Photos uploaded successfully!", status: "success", duration: 3000, isClosable: true });
   };
 
   const handleSubmit = (e) => {
@@ -99,24 +132,28 @@ const AddProperty = () => {
           <FormControlLabel control={<Checkbox name="furnished" checked={property.furnished} onChange={handleCheckboxChange} />} label="Furnished" />
           <FormControlLabel control={<Checkbox name="available" checked={property.available} onChange={handleCheckboxChange} />} label="Available" />
 
-         
-
+          {/* Upload Images Button */}
           <Button variant="contained" component="label" fullWidth sx={{ mt: 2 }}>
             Upload Images
             <input type="file" hidden multiple accept="image/*" onChange={handleImageUpload} />
           </Button>
 
+          {/* Loader while uploading */}
+          {isLoading && <CircularProgress sx={{ display: "block", mx: "auto", mt: 2 }} />}
+
+          {/* Preview Uploaded Images */}
           <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
             {property.images.map((img, index) => (
               <img key={index} src={img} alt="Uploaded" width={80} height={80} style={{ borderRadius: 5 }} />
             ))}
           </Box>
 
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={()=>console.log(property)}>
             Submit
           </Button>
         </form>
       </Container>
+      <ToastContainer position="top-center" autoClose={3000} />
     </>
   );
 };

@@ -6,6 +6,8 @@ import OwnerLogin from "./pages/OwnerLogin";
 import OwnerDashboard from "./pages/OwnerDashboard";
 import AddProperty from "./pages/AddProperty";
 import TenantDashboard from "./pages/TenentDashboard";
+import OwnerSignup from "./pages/OwnerSignUp";
+import TenentSignup from './pages/TenentSignUp'
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <Route path="/owner/dashboard" element={<OwnerDashboard />} />
         <Route path="/owner/add-property" element={<AddProperty />} />
         <Route path="/tenent/dashboard" element={<TenantDashboard />} />
+        <Route path="/owner/signup" element={<OwnerSignup />} />
+        <Route path="/tenent/signup" element={<TenentSignup />} />
       </Routes>
     </>
   );

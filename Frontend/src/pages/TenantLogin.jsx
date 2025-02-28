@@ -1,10 +1,14 @@
 import React, { useState } from "react"; // ✅ Make sure this is correctly imported
-import { Container, TextField, Button, Typography, Paper } from "@mui/material";
+import { Container, TextField, Button, Typography, Paper,Box } from "@mui/material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 const TenantLogin = () => {
+
+  const navigate=useNavigate();
+
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -48,9 +52,14 @@ const TenantLogin = () => {
             margin="normal"
             variant="outlined"
           />
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, marginTop: 2 }}>
           <Button type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: 2 }}>
             Login
           </Button>
+              <Button variant="outlined" color="primary" fullWidth onClick={() => navigate("/tenent/signup")}>
+                Sign Up
+              </Button>
+            </Box>
         </form>
       </Paper>
       <ToastContainer position="top-center" autoClose={3000} />
