@@ -25,6 +25,7 @@ public class OwnerController {
     @PostMapping("/login")
     public Map<String,Object> loginOwner(@RequestBody Map<String,String> login)
     {
+        System.out.println(login);
         return ownerService.ownerLogin(login);
     }
 

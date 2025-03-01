@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -18,101 +18,31 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import OwnerNavbar from "../components/OwnerNavbar";
+import axios from "axios";
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
 
   // Dummy property data
-  const [properties, setProperties] = useState([
-    {
-      id: 1,
-      title: "Luxury Apartment",
-      location: "Downtown, NYC",
-      rent: 2500,
-      type: "Apartment",
-      bedrooms: 2,
-      bathrooms: 2,
-      furnished: true,
-      available: true,
-      amenities: ["WiFi", "Gym", "Swimming Pool"],
-      images: [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300",
-      ],
-      owner: "John Doe",
-    },
-    {
-      id: 2,
-      title: "Cozy Studio",
-      location: "Brooklyn, NYC",
-      rent: 1500,
-      type: "Studio",
-      bedrooms: 1,
-      bathrooms: 1,
-      furnished: false,
-      available: false,
-      amenities: ["WiFi"],
-      images: ["https://via.placeholder.com/300"],
-      owner: "John Doe",
-    },
-    {
-        id: 1,
-        title: "Luxury Apartment",
-        location: "Downtown, NYC",
-        rent: 2500,
-        type: "Apartment",
-        bedrooms: 2,
-        bathrooms: 2,
-        furnished: true,
-        available: true,
-        amenities: ["WiFi", "Gym", "Swimming Pool"],
-        images: [
-          "https://via.placeholder.com/300",
-          "https://via.placeholder.com/300",
-        ],
-        owner: "John Doe",
-      },
-      {
-        id: 1,
-        title: "Luxury Apartment",
-        location: "Downtown, NYC",
-        rent: 2500,
-        type: "Apartment",
-        bedrooms: 2,
-        bathrooms: 2,
-        furnished: true,
-        available: true,
-        amenities: ["WiFi", "Gym", "Swimming Pool"],
-        images: [
-          "https://via.placeholder.com/300",
-          "https://via.placeholder.com/300",
-        ],
-        owner: "John Doe",
-      },
-      {
-        id: 1,
-        title: "Luxury Apartment",
-        location: "Downtown, NYC",
-        rent: 2500,
-        type: "Apartment",
-        bedrooms: 2,
-        bathrooms: 2,
-        furnished: true,
-        available: true,
-        amenities: ["WiFi", "Gym", "Swimming Pool"],
-        images: [
-          "https://via.placeholder.com/300",
-          "https://via.placeholder.com/300",
-        ],
-        owner: "John Doe",
-      },
-  ]);
+  const [properties, setProperties] = useState([]);
+
+  useEffect(()=>{
+    const fetchProperty=async()=>{
+        const response=await axios.post("http://localhost:8080/property/getallproperties",{id:JSON.parse(localStorage.getItem("userinfo")).id})
+        console.log(response.data)
+        if(response.data.msg==="Properties Datas Reterived")
+        {
+          setProperties(response.data.properties);
+        }
+    }
+    fetchProperty();
+  },[])
 
   return (
     <>
       <OwnerNavbar />
-      <Container sx={{ mt: 10 }}>
+      <Container sx={{ mt: 4 }}>
         <Typography variant="h4" gutterBottom>
           Your Properties
         </Typography>

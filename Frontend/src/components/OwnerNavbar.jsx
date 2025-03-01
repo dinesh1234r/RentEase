@@ -7,8 +7,8 @@ const OwnerNavbar = () => {
 
   const handleLogout = () => {
     // Dummy Logout Action
-    console.log("User logged out (Dummy)");
-    navigate("/owner/login");
+    localStorage.clear();
+    navigate("/owner");
   };
 
   return (

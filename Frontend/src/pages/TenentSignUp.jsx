@@ -7,7 +7,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 
 const OwnerSignup = () => {
-  const [user, setUser] = useState({ name: "", email: "", phoneno: "", password: "" });
+  const [user, setUser] = useState({ name: "", email: "", phone: "", password: "" ,watchlist: []});
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,13 +17,13 @@ const OwnerSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (!user.name || !user.email || !user.phoneno || !user.password) {
+    if (!user.name || !user.email || !user.phone || !user.password) {
       toast.error("Please fill all the fields!");
       return;
     }
   
     try {
-      const response = await axios.post("http://localhost:8080/owner/register", user);
+      const response = await axios.post("http://localhost:8080/tenent/register", user);
       
       // Store user data properly in localStorage
       localStorage.setItem("userinfo", JSON.stringify(response.data));
@@ -43,7 +43,7 @@ const OwnerSignup = () => {
       <Container maxWidth="sm">
         <Paper elevation={3} sx={{ padding: 4, marginTop: 5, textAlign: "center" }}>
           <Typography variant="h4" fontWeight="bold" color="primary">
-            Owner Signup
+            Tenent Signup
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -67,7 +67,7 @@ const OwnerSignup = () => {
               fullWidth
               label="Phone Number"
               type="tel"
-              name="phoneno"
+              name="phone"
               onChange={handleChange}
               margin="normal"
               variant="outlined"

@@ -27,7 +27,7 @@ const TenantNavbar = () => {
         </Box>
 
         {/* Logout Button */}
-        <Button color="inherit" sx={{ ml: 2 }} onClick={() => alert("Logging out...")}>
+        <Button color="inherit" sx={{ ml: 2 }} onClick={() => {localStorage.clear();navigate("/tenent")}}>
           Logout
         </Button>
       </Toolbar>

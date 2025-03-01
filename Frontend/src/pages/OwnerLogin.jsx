@@ -4,24 +4,39 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 const OwnerLogin = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const navigate = useNavigate(); // Hook to navigate to another page
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (!credentials.email || !credentials.password) {
       toast.error("Please enter both email and password!");
       return;
     }
+    const response=await axios.post("http://localhost:8080/owner/login",credentials);
 
-    toast.success("Owner login successful!");
-    // Add API call for authentication here
+    if(response.data.msg==="Login Successful")
+    {
+      const userinfo={
+        id:response.data.id,
+        name:response.data.name,
+        email:response.data.email,
+        phoneno:response.data.phoneno
+      }
+      localStorage.setItem("userinfo",JSON.stringify(userinfo));
+      toast.success("Signin Successful! Redirecting...");
+      setTimeout(() => navigate("/owner/dashboard"), 2000);
+    }
+    else{
+      toast.success("Tenant login Failed!");
+    }
   };
 
   return (

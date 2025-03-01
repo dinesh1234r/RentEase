@@ -30,7 +30,7 @@ const AddProperty = () => {
     bathrooms: "",
     furnished: false,
     available: true,
-    amenities: [],
+    amenities: [], // ✅ Ensures it's always an array
     images: [],
     owner: "",
   });
@@ -48,15 +48,16 @@ const AddProperty = () => {
   };
 
   const handleAmenitiesChange = (event) => {
-    setProperty({ ...property, amenities: event.target.value });
+    const value = event.target.value;
+    setProperty({ ...property, amenities: Array.isArray(value) ? value : [] });
   };
 
   // ✅ Upload images to Cloudinary and store URLs
   const handleImageUpload = async (event) => {
     const files = Array.from(event.target.files);
-    
+
     if (files.length === 0) {
-      toast({ title: "Choose at least one photo", status: "error", duration: 3000, isClosable: true });
+      toast.error("Choose at least one photo");
       return;
     }
 
@@ -72,7 +73,7 @@ const AddProperty = () => {
         const res = await axios.post(`https://api.cloudinary.com/v1_1/dyv9xgbfx/image/upload`, formData);
         uploadedImageURLs.push(res.data.secure_url);
       } catch (error) {
-        toast({ title: "Error uploading photo", status: "error", duration: 3000, isClosable: true });
+        toast.error("Error uploading photo");
       }
     }
 
@@ -82,13 +83,20 @@ const AddProperty = () => {
     }));
 
     setIsLoading(false);
-    toast({ title: "Photos uploaded successfully!", status: "success", duration: 3000, isClosable: true });
+    toast.success("Photos uploaded successfully!");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Property Submitted:", property);
-    // Send data to API here (POST request)
+
+    try {
+      property.owner=JSON.parse(localStorage.getItem("userinfo")).id;
+      await axios.post("http://localhost:8080/property/register", property);
+      toast.success("Property added successfully!");
+    } catch (error) {
+      toast.error("Error adding property");
+    }
   };
 
   return (
@@ -118,9 +126,25 @@ const AddProperty = () => {
 
           <TextField fullWidth type="number" label="Bathrooms" name="bathrooms" value={property.bathrooms} onChange={handleChange} margin="normal" required />
 
+          {/* Fixed Amenities Select Issue */}
           <FormControl fullWidth margin="normal">
             <InputLabel>Amenities</InputLabel>
-            <Select multiple value={property.amenities} onChange={handleAmenitiesChange} renderValue={(selected) => <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>{selected.map((value) => <Chip key={value} label={value} />)}</Box>}>
+            <Select
+              multiple
+              value={property.amenities || []} // ✅ Ensures it's always an array
+              onChange={handleAmenitiesChange}
+              renderValue={(selected) =>
+                Array.isArray(selected) && selected.length > 0 ? (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                ) : (
+                  "Select Amenities"
+                )
+              }
+            >
               {amenitiesList.map((amenity) => (
                 <MenuItem key={amenity} value={amenity}>
                   {amenity}
@@ -148,7 +172,7 @@ const AddProperty = () => {
             ))}
           </Box>
 
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={()=>console.log(property)}>
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
             Submit
           </Button>
         </form>
