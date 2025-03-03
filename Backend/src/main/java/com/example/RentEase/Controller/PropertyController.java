@@ -3,10 +3,7 @@ package com.example.RentEase.Controller;
 import com.example.RentEase.Model.Property;
 import com.example.RentEase.Service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -28,4 +25,11 @@ public class PropertyController {
         String id=(String) req.get("id");
         return service.getAllProperties(id);
     }
+
+    @GetMapping("/getallproperties")
+    public Map<String,Object> getProperties()
+    {
+        return service.getProperties();
+    }
+
 }

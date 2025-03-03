@@ -20,7 +20,7 @@ const Home = () => {
         
         {/* Role Selection */}
         <Box sx={{ marginTop: 4 }}>
-          <Button variant="contained" color="primary" component={Link} to="/tenant" sx={{ margin: 1 }}>
+          <Button variant="contained" color="primary" component={Link} to="/tenent" sx={{ margin: 1 }}>
             Tenant Login
           </Button>
           <Button variant="contained" color="secondary" component={Link} to="/owner" sx={{ margin: 1 }}>

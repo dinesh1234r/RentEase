@@ -33,4 +33,11 @@ public class PropertyService {
         response.put("msg","Properties Not Found");
         return response;
     }
+
+    public Map<String, Object> getProperties() {
+        Map<String,Object> map=new HashMap<>();
+        map.put("msg","Fetched");
+        map.put("properties",repo.findAll());
+        return map;
+    }
 }
