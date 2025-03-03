@@ -43,7 +43,7 @@ public class TenentController {
     public Map<String,Object> tenentUpdateWatchList(@RequestBody Map<String,Object> req)
     {
         String id=(String)req.get("id");
-        List<String> watchlist=(List<String>) req.get("watchlist");
+        String watchlist=(String) req.get("watchlist");
         return tenentService.updateTenentWatchList(id,watchlist);
     }
 

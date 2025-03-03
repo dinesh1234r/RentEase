@@ -59,7 +59,7 @@ public class TenentService {
         return response;
     }
 
-    public Map<String,Object> updateTenentWatchList(String id,List<String> req)
+    public Map<String,Object> updateTenentWatchList(String id,String req)
     {
         Optional<Tenent> optionalTenent=repo.findById(id);
         Map<String,Object> response=new HashMap<>();
@@ -67,7 +67,7 @@ public class TenentService {
         {
             Tenent tenent=optionalTenent.get();
             List<String> existingwatchlist=tenent.getWatchlist();
-            existingwatchlist.addAll(req);
+            existingwatchlist.add(req);
             tenent.setWatchlist(existingwatchlist);
             repo.save(tenent);
             response.put("msg","WatchList Updated");

@@ -22,7 +22,7 @@ import axios from "axios";
 const TenantDashboard = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [position, setPosition] = useState(null);
-  const [savedProperties, setSavedProperties] = useState(new Set());
+  // const [savedProperties, setSavedProperties] = useState(new Set());
 
   const [properties,setProperties] =useState([]);
 
@@ -52,22 +52,22 @@ const TenantDashboard = () => {
     setSelectedProperty(null);
   };
 
-  const toggleSavedProperty = (id) => {
-    setSavedProperties((prev) => {
-      const newSaved = new Set(prev);
-      if (newSaved.has(id)) {
-        newSaved.delete(id);
-      } else {
-        newSaved.add(id);
-      }
-      return newSaved;
-    });
-  };
+  // const toggleSavedProperty = (id) => {
+  //   setSavedProperties((prev) => {
+  //     const newSaved = new Set(prev);
+  //     if (newSaved.has(id)) {
+  //       newSaved.delete(id);
+  //     } else {
+  //       newSaved.add(id);
+  //     }
+  //     return newSaved;
+  //   });
+  // };
 
 
 const handleSaveProperty = (property) => {
-  setSavedProperties((prev) => [...prev, property]);
-  alert("Property saved!");
+  // setSavedProperties((prev) => [...prev, property]);
+  console.log(property)
 };
 
 
