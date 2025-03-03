@@ -1,19 +1,21 @@
 package com.example.RentEase.Service;
 
+import com.example.RentEase.Model.Owner;
 import com.example.RentEase.Model.Property;
+import com.example.RentEase.Repository.OwnerRepository;
 import com.example.RentEase.Repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PropertyService {
     @Autowired
     PropertyRepository repo;
+
+    @Autowired
+    OwnerRepository ownerrepo;
 
     public Property propertyregister(Property property)
     {
@@ -36,8 +38,41 @@ public class PropertyService {
 
     public Map<String, Object> getProperties() {
         Map<String,Object> map=new HashMap<>();
+
+        List<Property> properties=repo.findAll();
         map.put("msg","Fetched");
-        map.put("properties",repo.findAll());
+
+        List<Map<String,Object>> updatedProperty=new ArrayList<>();
+        for(Property property:properties)
+        {
+            Map<String, Object> propertyData = new HashMap<>();
+            propertyData.put("id",property.getId());
+            propertyData.put("id", property.getId());
+            propertyData.put("title", property.getTitle());
+            propertyData.put("location", property.getLocation());
+            propertyData.put("rent", property.getRent());
+            propertyData.put("type", property.getType());
+            propertyData.put("bedrooms", property.getBedrooms());
+            propertyData.put("bathrooms", property.getBathrooms());
+            propertyData.put("furnished", property.getFurnished());
+            propertyData.put("available", property.getAvailable());
+            propertyData.put("amenities", property.getAmenities());
+            propertyData.put("images", property.getImages());
+
+            Optional<Owner> ownerOptional=ownerrepo.findById(property.getOwner());
+            if(ownerOptional.isPresent())
+            {
+                Owner owner=ownerOptional.get();
+                propertyData.put("ownerphoneno",owner.getPhoneno());
+            }
+            else
+            {
+                propertyData.put("ownerphoneno","Not Found");
+            }
+
+            updatedProperty.add(propertyData);
+        }
+        map.put("properties",updatedProperty);
         return map;
     }
 }

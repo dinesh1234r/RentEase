@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -17,48 +17,25 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 import TenantNavbar from "../components/TenantNavbar";
+import axios from "axios";
 
 const TenantDashboard = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [position, setPosition] = useState(null);
   const [savedProperties, setSavedProperties] = useState(new Set());
 
-  const properties = [
-    {
-      id: 1,
-      title: "Luxury Apartment",
-      location: "Downtown, NYC",
-      rent: 2500,
-      type: "Apartment",
-      bedrooms: 2,
-      bathrooms: 2,
-      furnished: true,
-      available: true,
-      amenities: ["WiFi", "Gym", "Swimming Pool"],
-      images: ["https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-        "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-        "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-        "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-        "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-        "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg",
-      ],
-      ownerphoneno: "9876543210",
-    },
-    {
-      id: 2,
-      title: "Cozy Studio",
-      location: "Brooklyn, NYC",
-      rent: 1500,
-      type: "Studio",
-      bedrooms: 1,
-      bathrooms: 1,
-      furnished: false,
-      available: false,
-      amenities: ["WiFi"],
-      images: ["https://via.placeholder.com/600x400"],
-      ownerphoneno: "9876543211",
-    },
-  ];
+  const [properties,setProperties] =useState([]);
+
+  useEffect(()=>{
+    const fetchdata=async()=>{
+        const response=await axios.get("http://localhost:8080/property/getallproperties");
+        if(response.data.msg==="Fetched")
+        {
+          setProperties(response.data.properties)
+        }
+    }
+    fetchdata();
+  },[])
 
   const openProperty = (property, event) => {
     const rect = event.currentTarget.getBoundingClientRect();
