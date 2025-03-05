@@ -65,9 +65,19 @@ const TenantDashboard = () => {
   // };
 
 
-const handleSaveProperty = (property) => {
+const handleSaveProperty = async(property) => {
   // setSavedProperties((prev) => [...prev, property]);
   console.log(property)
+  const response=await axios.post("http://localhost:8080/tenent/updatewatchlist",{
+    id:JSON.parse(localStorage.getItem("userinfo")).id,
+    property:property.id
+  })
+
+  if(response.data.msg==="WatchList Updated")
+  {
+    alert("WatchList Updated");
+  }
+
 };
 
 
