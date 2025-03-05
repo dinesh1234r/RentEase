@@ -70,7 +70,7 @@ const handleSaveProperty = async(property) => {
   console.log(property)
   const response=await axios.post("http://localhost:8080/tenent/updatewatchlist",{
     id:JSON.parse(localStorage.getItem("userinfo")).id,
-    property:property.id
+    watchlist:property.id
   })
 
   if(response.data.msg==="WatchList Updated")

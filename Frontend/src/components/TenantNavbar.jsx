@@ -18,7 +18,7 @@ const TenantNavbar = () => {
           <Button color="inherit" onClick={() => navigate("/search")}>
             Search Properties
           </Button>
-          <Button color="inherit" onClick={() => navigate("/bookings")}>
+          <Button color="inherit" onClick={() => navigate("/tenent/savedproperties")}>
             Saved Properties
           </Button>
           <Button color="inherit" onClick={() => navigate("/profile")}>

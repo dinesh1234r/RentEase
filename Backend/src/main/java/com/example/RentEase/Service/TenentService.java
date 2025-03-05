@@ -59,15 +59,16 @@ public class TenentService {
         return response;
     }
 
-    public Map<String,Object> updateTenentWatchList(String id,String req)
+    public Map<String,Object> updateTenentWatchList(String id,String watchlist)
     {
         Optional<Tenent> optionalTenent=repo.findById(id);
         Map<String,Object> response=new HashMap<>();
+        System.out.println(watchlist);
         if(optionalTenent.isPresent())
         {
             Tenent tenent=optionalTenent.get();
             List<String> existingwatchlist=tenent.getWatchlist();
-            existingwatchlist.add(req);
+            existingwatchlist.add(watchlist);
             tenent.setWatchlist(existingwatchlist);
             repo.save(tenent);
             response.put("msg","WatchList Updated");

@@ -8,6 +8,7 @@ import AddProperty from "./pages/AddProperty";
 import TenantDashboard from "./pages/TenentDashboard";
 import OwnerSignup from "./pages/OwnerSignUp";
 import TenentSignup from './pages/TenentSignUp'
+import TenentSavedProperties from './pages/TenentSavedProperties'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/tenent/dashboard" element={<TenantDashboard />} />
         <Route path="/owner/signup" element={<OwnerSignup />} />
         <Route path="/tenent/signup" element={<TenentSignup />} />
+        <Route path="/tenent/savedproperties" element={<TenentSavedProperties />} />
       </Routes>
     </>
   );

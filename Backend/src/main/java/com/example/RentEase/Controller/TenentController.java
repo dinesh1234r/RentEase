@@ -15,6 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/tenent")
 public class TenentController {
+
     @Autowired
     private TenentService tenentService;
 
@@ -42,6 +43,7 @@ public class TenentController {
     @PostMapping("/updatewatchlist")
     public Map<String,Object> tenentUpdateWatchList(@RequestBody Map<String,Object> req)
     {
+        System.out.println(req);
         String id=(String)req.get("id");
         String watchlist=(String) req.get("watchlist");
         return tenentService.updateTenentWatchList(id,watchlist);
