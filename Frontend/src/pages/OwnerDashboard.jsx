@@ -29,7 +29,7 @@ const OwnerDashboard = () => {
 
   useEffect(()=>{
     const fetchProperty=async()=>{
-        const response=await axios.post("http://localhost:8080/property/getallproperties",{id:JSON.parse(localStorage.getItem("userinfo")).id})
+        const response=await axios.post("https://rentease-backend-ysgh.onrender.com/property/getallproperties",{id:JSON.parse(localStorage.getItem("userinfo")).id})
         console.log(response.data)
         if(response.data.msg==="Properties Datas Reterived")
         {

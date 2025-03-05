@@ -28,7 +28,7 @@ const TenantDashboard = () => {
 
   useEffect(()=>{
     const fetchdata=async()=>{
-        const response=await axios.get("http://localhost:8080/property/getallproperties");
+        const response=await axios.get("https://rentease-backend-ysgh.onrender.com/property/getallproperties");
         if(response.data.msg==="Fetched")
         {
           setProperties(response.data.properties)
@@ -68,7 +68,7 @@ const TenantDashboard = () => {
 const handleSaveProperty = async(property) => {
   // setSavedProperties((prev) => [...prev, property]);
   console.log(property)
-  const response=await axios.post("http://localhost:8080/tenent/updatewatchlist",{
+  const response=await axios.post("https://rentease-backend-ysgh.onrender.com/tenent/updatewatchlist",{
     id:JSON.parse(localStorage.getItem("userinfo")).id,
     watchlist:property.id
   })

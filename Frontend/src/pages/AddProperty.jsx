@@ -92,7 +92,7 @@ const AddProperty = () => {
 
     try {
       property.owner=JSON.parse(localStorage.getItem("userinfo")).id;
-      await axios.post("http://localhost:8080/property/register", property);
+      await axios.post("https://rentease-backend-ysgh.onrender.com/property/register", property);
       toast.success("Property added successfully!");
     } catch (error) {
       toast.error("Error adding property");

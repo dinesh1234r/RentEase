@@ -20,7 +20,7 @@ const OwnerLogin = () => {
       toast.error("Please enter both email and password!");
       return;
     }
-    const response=await axios.post("http://localhost:8080/owner/login",credentials);
+    const response=await axios.post("https://rentease-backend-ysgh.onrender.com/owner/login",credentials);
 
     if(response.data.msg==="Login Successful")
     {

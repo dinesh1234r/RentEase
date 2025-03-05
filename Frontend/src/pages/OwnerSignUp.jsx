@@ -23,7 +23,7 @@ const OwnerSignup = () => {
     }
   
     try {
-      const response = await axios.post("http://localhost:8080/owner/register", user);
+      const response = await axios.post("https://rentease-backend-ysgh.onrender.com/owner/register", user);
       
       // Store user data properly in localStorage
       localStorage.setItem("userinfo", JSON.stringify(response.data));

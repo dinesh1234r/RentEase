@@ -12,8 +12,8 @@ const WatchlistPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.post("http://localhost:8080/tenent/getwatchlist", { id: JSON.parse(localStorage.getItem("userinfo")).id });
-      const propertyData = await axios.post("http://localhost:8080/property/getsavedproperties", { watchlist: response.data.watchlist });
+      const response = await axios.post("https://rentease-backend-ysgh.onrender.com/tenent/getwatchlist", { id: JSON.parse(localStorage.getItem("userinfo")).id });
+      const propertyData = await axios.post("https://rentease-backend-ysgh.onrender.com/property/getsavedproperties", { watchlist: response.data.watchlist });
       setWatchList(propertyData.data.WatchList);
     };
     fetchData();

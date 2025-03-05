@@ -23,7 +23,7 @@ const TenantLogin = () => {
       return;
     }
 
-    const response=await axios.post("http://localhost:8080/tenent/login",credentials);
+    const response=await axios.post("https://rentease-backend-ysgh.onrender.com/tenent/login",credentials);
 
     if(response.data.msg==="Login Successful")
     {
