@@ -75,4 +75,45 @@ public class PropertyService {
         map.put("properties",updatedProperty);
         return map;
     }
+
+    public Map<String, Object> getPropertyById(List<String> watchlist) {
+        Map<String,Object> result=new HashMap<>();
+        List<Map<String,Object>> response=new ArrayList<>();
+        for(String id:watchlist)
+        {
+            Optional<Property> optionalProperty=repo.findById(id);
+            if(optionalProperty.isPresent())
+            {
+                Property property=optionalProperty.get();
+                Map<String, Object> propertyData = new HashMap<>();
+                propertyData.put("id",property.getId());
+                propertyData.put("id", property.getId());
+                propertyData.put("title", property.getTitle());
+                propertyData.put("location", property.getLocation());
+                propertyData.put("rent", property.getRent());
+                propertyData.put("type", property.getType());
+                propertyData.put("bedrooms", property.getBedrooms());
+                propertyData.put("bathrooms", property.getBathrooms());
+                propertyData.put("furnished", property.getFurnished());
+                propertyData.put("available", property.getAvailable());
+                propertyData.put("amenities", property.getAmenities());
+                propertyData.put("images", property.getImages());
+
+                Optional<Owner> ownerOptional=ownerrepo.findById(property.getOwner());
+                if(ownerOptional.isPresent())
+                {
+                    Owner owner=ownerOptional.get();
+                    propertyData.put("ownerphoneno",owner.getPhoneno());
+                }
+                else
+                {
+                    propertyData.put("ownerphoneno","Not Found");
+                }
+                response.add(propertyData);
+            }
+        }
+        result.put("msg","Fetched");
+        result.put("WatchList",response);
+        return result;
+    }
 }

@@ -15,15 +15,15 @@ const TenantNavbar = () => {
 
         {/* Navigation Links */}
         <Box sx={{ display: "flex", gap: 2 }}>
-          <Button color="inherit" onClick={() => navigate("/search")}>
+          <Button color="inherit" onClick={() => navigate("/tenent/dashboard")}>
             Search Properties
           </Button>
           <Button color="inherit" onClick={() => navigate("/tenent/savedproperties")}>
             Saved Properties
           </Button>
-          <Button color="inherit" onClick={() => navigate("/profile")}>
+          {/* <Button color="inherit" onClick={() => navigate("/profile")}>
             Profile
-          </Button>
+          </Button> */}
         </Box>
 
         {/* Logout Button */}

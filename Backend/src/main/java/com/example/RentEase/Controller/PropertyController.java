@@ -5,6 +5,7 @@ import com.example.RentEase.Service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,6 +31,13 @@ public class PropertyController {
     public Map<String,Object> getProperties()
     {
         return service.getProperties();
+    }
+
+    @PostMapping("/getsavedproperties")
+    public Map<String, Object> getPropertybyId(@RequestBody Map<String,Object> request)
+    {
+        List<String> req=(List<String>)request.get("watchlist");
+        return service.getPropertyById(req);
     }
 
 }
